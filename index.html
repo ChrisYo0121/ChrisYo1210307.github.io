@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOMO當機等待畫面</title>
+    <style>
+        /* 引入 Google Font - Patrick Hand */
+        @import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
+
+        /* 設定頁面整體樣式 */
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #fff;
+            font-family: 'Patrick Hand', cursive;
+        }
+
+        /* 頁面底部區域 */
+        .footer {
+            width: 100%;
+            height: 15vh;
+            background-color: purple;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5em;
+        }
+
+        /* 主要內容區域 */
+        .content {
+            width: 100%;
+            height: 400vh;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 主圖片 */
+        .main-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+        }
+
+        /* 會持續淡入淡出的圖片 */
+        .moving-images img {
+            width: 450px;
+            height: 450px;
+            position: absolute;
+            /* 套用持續變化的淡入淡出動畫 */
+            animation: fade-in 1s ease-in-out infinite alternate;
+            opacity: 0;
+        }
+
+        /* 定義淡入淡出動畫 */
+        @keyframes fade-in {
+            0% { opacity: 0; }  /* 開始透明 */
+            100% { opacity: 1; } /* 最終完全顯示 */
+        }
+
+        /* 左上角的訊息 */
+        .top-left-message {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: purple;
+            font-size: 2.9em;
+            white-space: pre-line;
+        }
+
+        /* 計時器與按鈕區域 */
+        .timer-container {
+            text-align: center;
+        }
+
+        /* 超連結按鈕樣式 */
+        .close-button {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 1em;
+            color: white;
+            background-color: #ff4081;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        /* 滑鼠懸停時改變按鈕顏色 */
+        .close-button:hover {
+            background-color: #d81b60;
+        }
+    </style>
+</head>
+<body>
+
+<!-- 主要內容區域 -->
+<div class="content">
+    <!-- 背景主圖片 -->
+    <img src="imgs/Shiba04.png" class="main-image" alt="主圖片">
+
+    <!-- 會淡入淡出的圖片 -->
+    <div class="moving-images">
+        <img src="imgs/top_05-1.png" style="top: 30%; left: 10%;">
+    </div>
+
+    <!-- 左上角提示訊息 -->
+    <div class="top-left-message">很抱歉！目前太多人瀏覽！
+        MOMO購物網關心您！</div>
+</div>
+
+<!-- 頁面底部 -->
+<div class="footer">
+    <div class="timer-container">
+        <p>請於 <span id="countdown">60:00</span> 後再試</p>
+        <!-- 修改按鈕為超連結，導向 MOMO 購物網 -->
+        <a href="https://www.momoshop.com.tw/main/Main.jsp" class="close-button">回 MOMO 首頁</a>
+    </div>
+</div>
+
+<script>
+    /**
+     * 啟動倒數計時
+     * @param {number} duration - 倒數計時的秒數
+     */
+    function startCountdown(duration) {
+        let timer = duration, minutes, seconds;
+        let countdownElement = document.getElementById('countdown');
+
+        // 設定每秒更新一次計時器
+        let interval = setInterval(function () {
+            minutes = Math.floor(timer / 60); // 計算剩餘分鐘
+            seconds = timer % 60;            // 計算剩餘秒數
+            seconds = seconds < 10 ? '0' + seconds : seconds; // 格式化秒數
+
+            // 更新顯示的倒數計時
+            countdownElement.textContent = minutes + ":" + seconds;
+
+            // 當時間歸零時停止計時
+            if (--timer < 0) {
+                clearInterval(interval);
+                countdownElement.textContent = "00:00";
+            }
+        }, 1000);
+    }
+
+    // 啟動倒數計時（60 分鐘 = 3600 秒）
+    startCountdown(3600);
+</script>
+
+</body>
+</html>
